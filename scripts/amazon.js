@@ -51,7 +51,7 @@ let html =`
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+          <button class="add-to-cart-button button-primary js-add-to-cart-btn" data-prod-id="${product.id}">
             Add to Cart
           </button>
         </div>
@@ -60,8 +60,30 @@ let html =`
     `
     allHTMl += html
 })
-console.log(allHTMl)
+// console.log(allHTMl)
     
     return allHTMl;
 }
 document.querySelector('.js-products').innerHTML=productHtml;
+document.querySelectorAll('.js-add-to-cart-btn').forEach((button)=>{
+  button.addEventListener('click',()=>{
+    // kebab converted to -> camel
+
+    
+      const productId = button.dataset.prodId;
+      // find returns object itself
+    const cartItem =  cart.find((item) =>{
+        return (item.productId=== productId)
+      })
+      if(cartItem){
+        cartItem.quantity++;
+      }else{
+        cart.push({
+        productId: productId,
+        quantity: 1
+      });
+      }
+  })
+})
+console.log(cart)
+
