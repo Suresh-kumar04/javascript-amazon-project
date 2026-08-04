@@ -658,3 +658,4 @@ const products = [
     ]
   }
 ];
+generateHTML(products);
