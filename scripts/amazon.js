@@ -1,6 +1,7 @@
 
 import {cart} from '../data/cart.js';
 import { products } from '../data/products.js';
+import { formatCurrancy } from './utils/money.js';
 
 let productHtml =generateHTML(products);
 
@@ -28,7 +29,7 @@ let html =`
           </div>
 
           <div class="product-price">
-            ₹.${(product.pricePaise/100).toFixed(2)}
+            ₹.${formatCurrancy(product.pricePaise)}
           </div>
 
           <div class="product-quantity-container">
