@@ -1,5 +1,5 @@
 
-import {cart} from '../data/cart.js';
+import {cart,addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrancy } from './utils/money.js';
 
@@ -70,29 +70,23 @@ let html =`
 document.querySelector('.js-products').innerHTML=productHtml;
 document.querySelectorAll('.js-add-to-cart-btn').forEach((button)=>{
   button.addEventListener('click',()=>{
-    // kebab converted to -> camel
 
-    
-      const productId = button.dataset.prodId;
-      // find returns object itself
-    const cartItem =  cart.find((item) =>{
-        return (item.productId=== productId)
-      })
-      if(cartItem){
-        cartItem.quantity++;
-      }else{
-        cart.push({
-        productId: productId,
-        quantity: 1
-      });
-      }
-      let cartQuantity =0;
-      cart.forEach((item)=>{
-        cartQuantity += item.quantity;
-      })
-      console.log(cartQuantity)
-      document.querySelector('.js-cartQuantity').innerHTML=cartQuantity
+    const productId = button.dataset.prodId;
+
+    addToCart(productId);
+
+    let cartQuantity = 0;
+
+    cart.forEach((item)=>{
+      cartQuantity += item.quantity;
+    });
+
+    document.querySelector('.js-cartQuantity')
+      .innerHTML = cartQuantity;
+
+  });
+
   })
-})
-console.log(cart)
+
+// console.log(cart)  
 
