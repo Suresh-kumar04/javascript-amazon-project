@@ -1,4 +1,5 @@
 
+import {cart} from '../data/cart.js';
 
 let productHtml =generateHTML(products);
 
