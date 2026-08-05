@@ -1,4 +1,4 @@
-  import{cart,removeFromCart} from '../data/cart.js'
+import{cart,removeFromCart,updateDeliveryOption} from '../data/cart.js'
   import { products } from '../data/products.js';
   import { formatCurrancy } from './utils/money.js';
   import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
@@ -7,6 +7,10 @@
   const deliverydate =today.add(7,'days')
   let format =deliverydate.format('dddd ,MMMM D');
   console.log(format)
+
+  function renderOrder(){
+
+
   let cartSummary ='';
   cart.forEach((cartItem)=>{
 
@@ -62,19 +66,19 @@
                     </span>
                   </div>
                 </div>
-                ${deliveryOptionsHtml(matchingProduct,cartItem)}
+                <div class="delivery-options" data-product-id="${matchingProduct.id}">
+                  <div class="delivery-options-title">
+                    Choose a delivery option:
+                  </div>
+                  ${deliveryOptionsHtml(matchingProduct,cartItem)}
+                </div>
                 </div>
                 </div>
                 
       `
   })
   function deliveryOptionsHtml(matchingProduct,cartItem) {
-  let html = `
-    <div class="delivery-options">
-      <div class="delivery-options-title">
-        Choose a delivery option:
-      </div>
-  `;
+  let html = '';
 
   const today = dayjs();
 
@@ -89,7 +93,9 @@
 
 
     html += `
-      <div class="delivery-option">
+      <div class="delivery-option js-deliveryOption"
+        data-product-id="${matchingProduct.id}"
+        data-delivery-option-id="${option.id}">
         <input
           type="radio"
           class="delivery-option-input"
@@ -108,8 +114,6 @@
     `;
   });
 
-  html += `</div>`;
-
   return html;
 }
   document.querySelector('.js-order').innerHTML=cartSummary;
@@ -127,3 +131,12 @@
           con.remove();
       })
   })
+  document.querySelectorAll('.js-deliveryOption').forEach((element)=>{
+    element.addEventListener('click',()=>{
+      const{productId,deliveryOptionId}=element.dataset;
+      updateDeliveryOption(productId,deliveryOptionId)
+      renderOrder();
+    })
+  })
+}
+renderOrder()

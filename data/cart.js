@@ -48,3 +48,13 @@ export function removeFromCart(prodid){
 function saveToLocal(){
     localStorage.setItem('cart',JSON.stringify(cart))
 }
+
+
+export function updateDeliveryOption(productId,deliverOptionId){
+   const cartItem = cart.find((item) => {
+    return item.productId === productId;
+  });
+  cartItem.deliveryOptionId = deliverOptionId;
+  saveToLocal();
+
+}
